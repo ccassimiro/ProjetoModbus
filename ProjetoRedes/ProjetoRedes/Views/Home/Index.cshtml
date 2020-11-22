@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>CONTROLADOR DE SEMÁFORO</h1>
+</div>
+
+<div class="row">
+    <h2>Controles</h2>
+    <button class="btn btn-default" type="submit" onclick="turnOn()">Ligar Sistema</button>
+    <br />
+    <br />
+    <button class="btn btn-default" type="submit" onclick="turnOff()">Desligar Sistema</button>
+    <br />
+    <br />
+    <hr />
+    <h2>Tempos do Semáforo</h2>
+    @using (Html.BeginForm("AlterarDados"))
+    {
+        <form id="formAlterarSemaforo">
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Verde</label>
+                    <input type="text" class="input-sm" id="inputVerde"  />
+                </div>
+                <div class="col-md-3">
+                    <label>Amarelo</label>
+                    <input type="text" class="input-sm" id="inputAmarelo" />
+                </div>
+                <div class="col-md-3">
+                    <label>Vermelho</label>
+                    <input type="text" class="input-sm" id="inputVermelho" />
+                </div>
+            </div>
+        </form>
+    }
+    <br />
+    <div class="col-lg-1">
+        <button class="btn btn-default" type="submit" onclick="AlterarDados()">Alterar dados</button>
+    </div>
+</div>
+
+<script>
+    function turnOn() {
+        $.ajax({
+            url: '@Url.Action("Ligar")',
+        });
+    };
+
+    function turnOff() {
+        $.ajax({
+            url: '@Url.Action("Desligar")',
+        });
+    }
+
+    function AlterarDados() {
+        document.getElementById("inputVerde").value
+        $.ajax({
+             type: 'post',
+            url: '@Url.Action("AlterarTempoSemaforo")',
+            data: {
+                verde: document.getElementById("inputVerde").value,
+                amarelo: document.getElementById("inputAmarelo").value,
+                vermelho: document.getElementById("inputVermelho").value,
+            },
+                success: function (data) {
+                    if (data.Success) {
+                        alert(data.Message);
+                    }
+                    else {
+                        altert("algo deu errado");
+                    }
+                }
+        });
+    }
+</script>
