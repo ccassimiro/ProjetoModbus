@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <label>Verde</label>
-                    <input type="text" class="input-sm" id="inputVerde"  />
+                    <input type="text" class="input-sm" id="inputVerde" />
                 </div>
                 <div class="col-md-3">
                     <label>Amarelo</label>
@@ -39,7 +39,64 @@
     <div class="col-lg-1">
         <button class="btn btn-default" type="submit" onclick="AlterarDados()">Alterar dados</button>
     </div>
+    <br />
+    <hr />
+    <br />
+    <br />
+
+
+    <h2>Mostrador do Semáforo</h2>
+    <div id="mostradorSemaforo">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Cor da Luz
+                    </th>
+                    <th>
+                        Tempo Total
+                    </th>
+                    <th>
+                        Tempo Restante
+                    </th>
+                    <th>
+                        Ligado/Desligado
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vermelho</td>
+                    <td>@ViewBag.TempoLuzVermelha</td>
+                    <td>@ViewBag.TempoRestanteLuzVermelha</td>
+                    @if (ViewBag.LuzVerdeLigada != null)
+                    {
+                        <td> @(ViewBag.LuzVermelhaLigada ? "Ligado":"Desligado")</td>
+                    }
+                </tr>
+                <tr>
+                    <td>Amarelo</td>
+                    <td>@ViewBag.TempoLuzVerde</td>
+                    <td>@ViewBag.TempoRestanteLuzAmarela</td>
+                    @if (ViewBag.LuzAmarelaLigada != null)
+                    {
+                        <td> @(ViewBag.LuzAmarelaLigada ? "Ligado":"Desligado")</td>
+                    }
+                </tr>
+                <tr>
+                    <td>Verde</td>
+                    <td>@ViewBag.TempoLuzAmarela</td>
+                    <td>@ViewBag.TempoRestanteLuzVerde</td>
+                    @if (ViewBag.LuzVerdeLigada != null)
+                    {
+                        <td> @(ViewBag.LuzVerdeLigada ? "Ligado":"Desligado")</td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 
 <script>
     function turnOn() {
@@ -53,6 +110,25 @@
             url: '@Url.Action("Desligar")',
         });
     }
+
+
+    function mostradorSemaforo() {
+            $.ajax({
+                url: '@Url.Action("Index", "Home")',
+                type: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    var content = $(data).find("#mostradorSemaforo");
+                    $("#mostradorSemaforo").replaceWith(content);
+                },
+                error: function () {
+                    alert("Erro");
+                },
+            });
+    }
+
+    setInterval('mostradorSemaforo();', 1000);
+
 
     function AlterarDados() {
         document.getElementById("inputVerde").value

@@ -19,6 +19,26 @@ namespace ProjetoRedes.Controllers
 
         public ActionResult Index()
         {
+            Semaforo semaforo = null;
+
+            if(service.Semaforo != null)
+            {
+                semaforo = service.EstadoSemaforo();
+                ViewBag.Ligado = semaforo.Ligado;
+
+                ViewBag.TempoLuzVermelha = semaforo.TempoLuzVermelha;
+                ViewBag.TempoLuzVerde = semaforo.TempoLuzVerde;
+                ViewBag.TempoLuzAmarela = semaforo.TempoLuzAmarela;
+
+                ViewBag.LuzVermelhaLigada = semaforo.LuzVermelhaLigada;
+                ViewBag.LuzVerdeLigada = semaforo.LuzVerdeLigada;
+                ViewBag.LuzAmarelaLigada = semaforo.LuzAmarelaLigada;
+
+                ViewBag.TempoRestanteLuzVermelha = semaforo.TempoRestanteLuzVermelha;
+                ViewBag.TempoRestanteLuzVerde = semaforo.TempoRestanteLuzVerde;
+                ViewBag.TempoRestanteLuzAmarela = semaforo.TempoRestanteLuzAmarela;
+            }
+            
             return View();
         }
 
@@ -34,6 +54,7 @@ namespace ProjetoRedes.Controllers
         public void Desligar()
         {
             service.Desconectar();
+            service.Semaforo.Ligado = false;
         }
         [HttpPost]
         public JsonResult AlterarTempoSemaforo(int? verde, int? amarelo, int? vermelho)

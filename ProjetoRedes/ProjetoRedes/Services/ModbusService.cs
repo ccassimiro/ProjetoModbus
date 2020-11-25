@@ -11,6 +11,7 @@ namespace ProjetoRedes.Services
         public int Port { get; set; }
         public string Ip { get; set; }
         public int[] Inputs { get; set; }
+        public int[] Holding { get; set; }
         public bool[] Coils { get; set; }
         public ModbusClient Client { get; set; }
         public Semaforo Semaforo { get; set; }
@@ -53,7 +54,14 @@ namespace ProjetoRedes.Services
             {
                 this.Client.Connect();
                 //this.Inputs = ReadInputRegisters();
-                //this.Coils = ReadCoils();
+                //this.Inputs[0] = 1;
+                this.Holding = HoldingRegisters();
+                this.Holding[0] = 1;
+                
+                this.Coils = ReadCoils();
+                this.Coils[4] = true;
+                WriteCoils(this.Coils);
+                WriteRegisters(this.Holding);
                 return true;
             }
             catch
@@ -66,7 +74,13 @@ namespace ProjetoRedes.Services
         {
             this.Semaforo.ThreadSemaforo.Interrupt();
             this.Semaforo.Ligado = false;
-            this.Client.Disconnect();
+            this.Coils = ReadCoils();
+            this.Coils[4] = false;
+            WriteCoils(this.Coils);
+            this.Holding = HoldingRegisters();
+            this.Holding[0] = 0;
+            WriteRegisters(this.Holding);
+
         }
 
         public void AlterarTempoSemaforo(int verde, int amarelo, int vermelho)
@@ -74,6 +88,7 @@ namespace ProjetoRedes.Services
             if (Semaforo != null && Semaforo.ThreadSemaforo.IsAlive)
             {
                 Semaforo.ThreadSemaforo.Interrupt();
+                this.Desconectar();
             }
             this.Client.WriteSingleRegister(1, vermelho);
             this.Client.WriteSingleRegister(3, verde);
@@ -95,6 +110,16 @@ namespace ProjetoRedes.Services
             return this.Client.ReadCoils(this.init, this.end);
         }
 
+        public void WriteCoils(bool[] coils)
+        {
+            this.Client.WriteMultipleCoils(this.init, coils);
+        }
+
+        public void WriteRegisters(int[] inputs)
+        {
+            this.Client.WriteMultipleRegisters(this.init, inputs);
+        }
+
         public int[] HoldingRegisters()
         {
             return this.Client.ReadHoldingRegisters(this.init, this.end);
@@ -106,6 +131,11 @@ namespace ProjetoRedes.Services
             Semaforo = new Semaforo(inputs);
             Semaforo.Ligado = true;
             Semaforo.ThreadSemaforo.Start();
+        }
+
+        public Semaforo EstadoSemaforo()
+        {
+            return this.Semaforo;
         }
 
 
