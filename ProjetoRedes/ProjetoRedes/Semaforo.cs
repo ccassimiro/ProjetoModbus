@@ -45,8 +45,8 @@ namespace ProjetoRedes
                 this.RegistradoresInput = service.ReadInputRegisters();
 
                 this.TempoLuzVermelha = RegistradoresInput[1];
-                this.TempoLuzAmarela = RegistradoresInput[3];
-                this.TempoLuzVerde = RegistradoresInput[5];
+                this.TempoLuzVerde = RegistradoresInput[3];
+                this.TempoLuzAmarela = RegistradoresInput[5];
 
                 this.Ligado = RegistradoresCoil[5];
                 LuzVermelhaLigada = RegistradoresCoil[7];

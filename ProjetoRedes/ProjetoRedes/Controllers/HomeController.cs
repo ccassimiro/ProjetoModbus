@@ -27,9 +27,11 @@ namespace ProjetoRedes.Controllers
                 ViewBag.Ligado = semaforo.Ligado;
 
                 ViewBag.TempoLuzVermelha = semaforo.TempoLuzVermelha;
-                ViewBag.TempoLuzAmarela = semaforo.TempoLuzVerde;
-                ViewBag.TempoLuzVerde = semaforo.TempoLuzAmarela;
+                ViewBag.TempoLuzVerde = semaforo.TempoLuzVerde;
+                ViewBag.TempoLuzAmarela = semaforo.TempoLuzAmarela;
                 
+
+
 
                 ViewBag.LuzVermelhaLigada = semaforo.LuzVermelhaLigada;
                 ViewBag.LuzVerdeLigada = semaforo.LuzVerdeLigada;
