@@ -27,8 +27,9 @@ namespace ProjetoRedes.Controllers
                 ViewBag.Ligado = semaforo.Ligado;
 
                 ViewBag.TempoLuzVermelha = semaforo.TempoLuzVermelha;
-                ViewBag.TempoLuzVerde = semaforo.TempoLuzVerde;
-                ViewBag.TempoLuzAmarela = semaforo.TempoLuzAmarela;
+                ViewBag.TempoLuzAmarela = semaforo.TempoLuzVerde;
+                ViewBag.TempoLuzVerde = semaforo.TempoLuzAmarela;
+                
 
                 ViewBag.LuzVermelhaLigada = semaforo.LuzVermelhaLigada;
                 ViewBag.LuzVerdeLigada = semaforo.LuzVerdeLigada;
@@ -71,20 +72,5 @@ namespace ProjetoRedes.Controllers
 
             return result;
         }
-
-
-        //public ActionResult About()
-        //{
-        //    ViewBag.Message = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public ActionResult Contact()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
     }
 }

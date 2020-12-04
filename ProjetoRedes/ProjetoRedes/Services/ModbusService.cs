@@ -53,15 +53,16 @@ namespace ProjetoRedes.Services
             try
             {
                 this.Client.Connect();
-                //this.Inputs = ReadInputRegisters();
-                //this.Inputs[0] = 1;
+                
                 this.Holding = HoldingRegisters();
                 this.Holding[0] = 1;
                 
                 this.Coils = ReadCoils();
                 this.Coils[4] = true;
+
                 WriteCoils(this.Coils);
                 WriteRegisters(this.Holding);
+
                 return true;
             }
             catch
